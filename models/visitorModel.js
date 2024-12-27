@@ -54,9 +54,11 @@ const visitorSchema = new mongoose.Schema({
     },
 
     isApproved: {
-        type: Boolean,
-        default: false
+        type: String,
+        enum: ["Pending", "Yes", "No"],
+        default: "Pending",
     },
+
     additionalNotes: {
         type: String,
         trim: true,
