@@ -57,4 +57,14 @@ visitorRouter.delete('/:id', async (req, res) => {
     }
 });
 
+// Delete all data TODO: Just for testing purposes
+visitorRouter.delete('/', async (req, res) => {
+    try {
+        await Visitor.deleteMany();
+        res.status(200).json({ message: 'All visitors deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = visitorRouter;
