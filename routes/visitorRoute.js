@@ -57,7 +57,7 @@ visitorRouter.delete('/:id', async (req, res) => {
     }
 });
 
-// Delete all data TODO: Just for testing purposes
+// Delete all data TODO: Just for (Testing Purposes)
 visitorRouter.delete('/', async (req, res) => {
     try {
         await Visitor.deleteMany();
@@ -66,5 +66,17 @@ visitorRouter.delete('/', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+
+// TODO: Add multipal visitor at a time (Testing purpose)
+visitorRouter.post('/addMany', async (req, res) => {
+    try {
+        const visitors = await Visitor.insertMany(req.body);
+        res.status(201).json(visitors);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 
 module.exports = visitorRouter;
