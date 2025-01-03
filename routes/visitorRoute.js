@@ -1,82 +1,31 @@
-// routes/visitorRoutes.js
 const express = require('express');
-const Visitor = require('../models/visitorModel');
+// const auth = require('../middleware/auth');
+const {
+    createVisitor,
+    getAllVisitors,
+    getSingleVisitor,
+    updateVisitor,
+    deleteVisitor,
+    deleteAllVisitors,
+    addManyVisitors
+} = require('../controllers/visitorController');
 
 const visitorRouter = express.Router();
 
-// Create a new visitor
-visitorRouter.post('/', async (req, res) => {
-    try {
-        const visitor = await Visitor.create(req.body);
-        res.status(201).json(visitor);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
+visitorRouter.route("/:hospitalId").post(createVisitor);
 
-// Get all visitors
-visitorRouter.get('/', async (req, res) => {
-    try {
-        const visitors = await Visitor.find();
-        res.status(200).json(visitors);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+visitorRouter.route("/:hospitalId").get(getAllVisitors);
 
-// Get a single visitor by ID
-visitorRouter.get('/:id', async (req, res) => {
-    try {
-        const visitor = await Visitor.findById(req.params.id);
-        if (!visitor) return res.status(404).json({ message: 'Visitor not found' });
-        res.status(200).json(visitor);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+visitorRouter.route("/:id").get(getSingleVisitor);
 
-// Update a visitor by ID
-visitorRouter.put('/:id', async (req, res) => {
-    try {
-        const visitor = await Visitor.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-        if (!visitor) return res.status(404).json({ message: 'Visitor not found' });
-        res.status(200).json(visitor);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
+visitorRouter.route("/:id").put(updateVisitor);
 
-// Delete a visitor by ID
-visitorRouter.delete('/:id', async (req, res) => {
-    try {
-        const visitor = await Visitor.findByIdAndDelete(req.params.id);
-        if (!visitor) return res.status(404).json({ message: 'Visitor not found' });
-        res.status(200).json({ message: 'Visitor deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+visitorRouter.route("/:id").delete(deleteVisitor);
 
-// Delete all data TODO: Just for (Testing Purposes)
-visitorRouter.delete('/', async (req, res) => {
-    try {
-        await Visitor.deleteMany();
-        res.status(200).json({ message: 'All visitors deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+// TODO: Delete all visitors for the nticated hospital (Testing purposes)
+visitorRouter.route("/").delete(deleteAllVisitors);
 
-
-// TODO: Add multipal visitor at a time (Testing purpose)
-visitorRouter.post('/addMany', async (req, res) => {
-    try {
-        const visitors = await Visitor.insertMany(req.body);
-        res.status(201).json(visitors);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
-
+// TODO: Add multiple visitors at a time (Testing purposes)
+visitorRouter.route("/addMany").post(addManyVisitors);
 
 module.exports = visitorRouter;

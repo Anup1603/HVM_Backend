@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const visitorRouter = require("./routes/visitorRoute");
+const hospitalRouter = require("./routes/hospitalRoute");
 const connectDB = require("./db/connectDB");
 require("dotenv").config();
 
@@ -18,13 +19,14 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use('/api/visitors', visitorRouter);
+app.use('/api/hospital', hospitalRouter);
 
 const startServer = async () => {
     try {
         await connectDB();
 
         app.listen(PORT, () => {
-            console.log(`Server connected successfully @ http://localhost:${PORT}/api/visitors`);
+            console.log(`Server connected successfully @ http://localhost:${PORT}/api/hospital`);
         });
     } catch (err) {
         console.log(`ERROR: ${err.message}`);

@@ -65,6 +65,12 @@ const visitorSchema = new mongoose.Schema({
         maxlength: [200, 'Notes cannot exceed 200 characters']
     },
 
+    hospital: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Hospital',
+        required: true,
+    },
+
 }, { timestamps: true });
 
 const Visitor = mongoose.model('Visitor', visitorSchema);
