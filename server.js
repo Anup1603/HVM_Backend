@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8000;
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "https://hospital-visitor-management.netlify.app" }));
+app.use(cors());
 
 app.get("/", (req, res) => {
     res.send("<h1>Server Started successfully...</h1>");
