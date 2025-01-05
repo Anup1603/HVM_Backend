@@ -20,8 +20,8 @@ const createVisitor = async (req, res) => {
 
 // Get all visitors for a specific hospital
 const getAllVisitors = async (req, res) => {
+    const { hospitalId } = req.params;
     try {
-        const { hospitalId } = req.params;
         const visitors = await Visitor.find({ hospital: hospitalId });
         res.status(200).json(visitors);
     } catch (error) {
@@ -32,10 +32,10 @@ const getAllVisitors = async (req, res) => {
 
 // Get a single visitor by ID for a specific hospital
 const getSingleVisitor = async (req, res) => {
-    const { id } = req.params;
+    const { hospitalId, id } = req.params;
 
     try {
-        const visitor = await Visitor.findOne({ _id: id, hospital: req.hospital._id });
+        const visitor = await Visitor.findOne({ hospital: hospitalId, _id: id });
         if (!visitor) {
             return res.status(404).json({ message: 'Visitor not found' });
         }
@@ -47,11 +47,11 @@ const getSingleVisitor = async (req, res) => {
 
 // Update a visitor by ID for a specific hospital
 const updateVisitor = async (req, res) => {
-    const { id } = req.params;
+    const { hospitalId, id } = req.params;
 
     try {
-        const visitor = await Visitor.findOneAndUpdate(
-            { _id: id, hospital: req.hospital._id },
+        const visitor = await Visitor.findByIdAndUpdate(
+            { hospital: hospitalId, _id: id },
             req.body,
             { new: true, runValidators: true }
         );
@@ -66,10 +66,10 @@ const updateVisitor = async (req, res) => {
 
 // Delete a visitor by ID for a specific hospital
 const deleteVisitor = async (req, res) => {
-    const { id } = req.params;
+    const { hospitalId, id } = req.params;
 
     try {
-        const visitor = await Visitor.findOneAndDelete({ _id: id, hospital: req.hospital._id });
+        const visitor = await Visitor.findByIdAndDelete({ hospital: hospitalId, _id: id });
         if (!visitor) {
             return res.status(404).json({ message: 'Visitor not found' });
         }

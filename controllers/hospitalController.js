@@ -26,7 +26,7 @@ const registerHospital = async (req, res) => {
 
         if (hospital) {
             // Generate QR code data containing only the formUrl
-            const formUrl = `${process.env.BASE_URL}${hospital._id}`;
+            const formUrl = `${process.env.BASE_URL}/${hospital._id}`;
             const qrCode = await QRCode.toDataURL(formUrl);
 
             // Save QR code in the hospital document
@@ -37,19 +37,19 @@ const registerHospital = async (req, res) => {
             const base64Data = qrCode.split(",")[1];
             const imgBuffer = Buffer.from(base64Data, "base64");
 
-            // res.status(201).json({
-            //     _id: hospital._id,
-            //     hospitalName: hospital.hospitalName,
-            //     hospitalEmail: hospital.hospitalEmail,
-            //     phoneNumber: hospital.phoneNumber,
-            //     registrationNumber: hospital.registrationNumber,
-            //     address: hospital.address,
-            //     qrCode: hospital.qrCode,
-            //     token: generateToken(hospital._id),
-            // });
+            res.status(201).json({
+                _id: hospital._id,
+                hospitalName: hospital.hospitalName,
+                hospitalEmail: hospital.hospitalEmail,
+                phoneNumber: hospital.phoneNumber,
+                registrationNumber: hospital.registrationNumber,
+                address: hospital.address,
+                qrCode: hospital.qrCode,
+                token: generateToken(hospital._id),
+            });
 
-            res.set("Content-Type", "image/png");
-            return res.status(200).send(imgBuffer);
+            // res.set("Content-Type", "image/png");
+            // return res.status(200).send(imgBuffer);
         } else {
             res.status(400).json({ message: "Invalid hospital data" });
         }
@@ -73,6 +73,7 @@ const loginHospital = async (req, res) => {
                 phoneNumber: hospital.phoneNumber,
                 registrationNumber: hospital.registrationNumber,
                 address: hospital.address,
+                qrCode: hospital.qrCode,
                 token: generateToken(hospital._id),
             });
         } else {

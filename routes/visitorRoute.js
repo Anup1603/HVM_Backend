@@ -16,11 +16,11 @@ visitorRouter.route("/:hospitalId").post(createVisitor);
 
 visitorRouter.route("/:hospitalId").get(getAllVisitors);
 
-visitorRouter.route("/:id").get(getSingleVisitor);
+visitorRouter.route("/:hospitalId/:id").get(getSingleVisitor);
 
-visitorRouter.route("/:id").put(updateVisitor);
+visitorRouter.route("/:hospitalId/:id").put(updateVisitor);
 
-visitorRouter.route("/:id").delete(deleteVisitor);
+visitorRouter.route("/:hospitalId/:id").delete(deleteVisitor);
 
 // TODO: Delete all visitors for the nticated hospital (Testing purposes)
 visitorRouter.route("/").delete(deleteAllVisitors);
