@@ -26,7 +26,7 @@ const registerHospital = async (req, res) => {
 
         if (hospital) {
             // Generate QR code data containing only the formUrl
-            const formUrl = `${process.env.BASE_URL}/${hospital._id}`;
+            const formUrl = `${process.env.BASE_URL}${hospital._id}`;
             const qrCode = await QRCode.toDataURL(formUrl);
 
             // Save QR code in the hospital document
