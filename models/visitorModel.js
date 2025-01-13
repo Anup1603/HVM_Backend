@@ -21,6 +21,7 @@ const visitorSchema = new mongoose.Schema({
     },
     photo: {
         type: String,
+        required: [true, 'Photo is required'],
     },
     purpose: {
         type: String,
